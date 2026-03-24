@@ -1,0 +1,20 @@
+{
+  "name": "project-movie-booking-backend-app",
+  "version": "1.0.0",
+  "description": "this is a backend api application for movie ticket booking app , similar to book my show ",
+  "license": "ISC",
+  "author": "deepak kumar",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.3.2"
+  }
+}
