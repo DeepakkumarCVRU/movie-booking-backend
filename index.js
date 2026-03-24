@@ -3,12 +3,17 @@ import bodyParser from "body-parser"
 import dotenv from "dotenv"
 import mongoose, { mongo } from "mongoose"
 import connectDB from "./db/ConnectDB.js"
+import cors from "cors"
+
+
+
 
 const app = express() // express app object
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 dotenv.config()
+app.use(cors())
 
 connectDB()
 
