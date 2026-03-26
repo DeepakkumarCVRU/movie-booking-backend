@@ -6,7 +6,7 @@ const router = Router();
 
 router.post("/mba/api/v1/movies", movieController.createMovie)
 router.get("/mba/api/v1/movie/:movieId", movieController.getmovie)
-router.delete("/mba/api/v1/movie/:movieId", movieController.deltemovie)
+router.delete("/mba/api/v1/movie/:movieId", movieController.deletemovie)
 
 
 export default router;

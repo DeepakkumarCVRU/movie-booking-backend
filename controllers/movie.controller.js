@@ -76,7 +76,7 @@ export const getmovie = async (req, res) => {
     }
 }
 
-export const deltemovie = async (req, res) => {
+export const deletemovie = async (req, res) => {
 
     try {
         const { movieId } = req.params;
