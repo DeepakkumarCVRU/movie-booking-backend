@@ -6,4 +6,5 @@ const router = Router();
 
 router.post("/mba/api/v1/movies", movieController.createMovie)
 
+
 export default router;
