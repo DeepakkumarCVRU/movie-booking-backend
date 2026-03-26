@@ -6,11 +6,13 @@ import mongoose from "mongoose";
 const movieSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        minLength: 3
     },
     description: {
         type: String,
-        required: true
+        required: true,
+        minLength: 5
     },
     casts: {
         type: [String],

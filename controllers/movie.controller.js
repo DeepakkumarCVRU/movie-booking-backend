@@ -12,25 +12,22 @@ export const createMovie = async (req, res) => {
     try {
         const { name, description, casts, trailerurl, langugage, releaseDate, director, releaseStatus } = req.body
 
-        const movie = new Movie({
-            name: name,
-            description: description,
-            casts: casts,
-            trailerurl: trailerurl,
-            langugage: langugage,
-            releaseDate: releaseDate,
-            director: director,
-            releaseStatus: releaseStatus
-        })
 
-        const savedMovie = await movie.save()
+        const response = await movieService.createMOvie(req.body);
 
-        successResponceBody.data = savedMovie,
+        if (response.err) {
+            errorResponceBody.err = response.err;
+            errorResponceBody.message = "validation field on few parameters of the request body ";
+            return res.status(response.code).json(errorResponceBody)
+        }
+
+        successResponceBody.data = response,
             successResponceBody.message = "sucessfully created a new Movie"
         return res.status(201).json(successResponceBody)
 
     } catch (error) {
-        console.log(error)
+
+        console.log("error name : ", error)
         return res.status(500).json(errorResponceBody)
     }
 }
