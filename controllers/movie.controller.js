@@ -84,3 +84,22 @@ export const updateMovie = async (req, res) => {
         res.status(500).json(errorResponceBody)
     }
 }
+
+
+export const getMovieByName = async (req, res) => {
+    try {
+        const response = await movieService.getMovieByName(req.query)
+        if (response.err) {
+            errorResponceBody.err = response.err;
+            errorResponceBody.message = "validation field on few parameters of the request body ";
+            return res.status(response.code).json(errorResponceBody)
+        }
+
+        successResponceBody.data = response;
+        return res.status(200).json({ successResponceBody })
+    } catch (error) {
+        console.log(error)
+        errorResponceBody.err = error;
+        res.status(500).json(errorResponceBody)
+    }
+}

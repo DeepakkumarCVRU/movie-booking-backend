@@ -62,3 +62,21 @@ export const updateMovieById = async (id, data) => {
         }
     }
 }
+
+export const getMovieByName = async (filter) => {
+    let query = {};
+
+    if (filter.name) {
+        query.name = filter.name
+    }
+
+
+    let movie = await Movie.find(query)
+    if (!movie) {
+        return {
+            err: "not able to find the queries movie",
+            code: 404
+        }
+    }
+    return movie;
+}
