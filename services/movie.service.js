@@ -44,3 +44,21 @@ export const deleteMovieById = async (id) => {
     }
     return movie;
 }
+
+export const updateMovieById = async (id, data) => {
+    try {
+        const movie = await Movie.findByIdAndUpdate(id, data, { returnDocument: "after", runValidators: true }) //you can also use { new : true } instead of { returnDocument : "after"}
+        return movie;
+    } catch (error) {
+        if (error.name == "ValidationError") {
+            let err = {};
+            Object.keys(error.errors).forEach((key) => {
+                err[key] = error.errors[key].message
+            })
+            console.log(err)
+            return { err: err, code: 422 }
+        } else {
+            throw error;
+        }
+    }
+}
