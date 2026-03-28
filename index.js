@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import connectDB from "./db/ConnectDB.js"
 import cors from "cors"
 import router from "./routes/movie.routes.js"
+import theatreRouter from "./routes/theatre.routes.js"
 
 
 
@@ -20,6 +21,7 @@ connectDB();
 
 const PORT = process.env.PORT || 3001
 app.use(router)
+app.use(theatreRouter)
 
 app.get("/", (req, res) => {
     return res.send("hello from server home route")
