@@ -5,6 +5,7 @@ const theatreSchema = new mongoose.Schema({
     name: {
         required: true,
         type: String,
+        minLength: 5
     },
     description: String,
     city: {
