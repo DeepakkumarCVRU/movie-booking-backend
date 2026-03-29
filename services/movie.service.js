@@ -35,14 +35,20 @@ export const getMovieById = async (id) => {
 }
 
 export const deleteMovieById = async (id) => {
-    const movie = await Movie.findByIdAndDelete(id);
-    if (!movie) {
-        return {
-            error: "no movie found for the corrsponding id provided",
-            code: 404
+    try {
+        const response = await Movie.findByIdAndDelete(id);
+        if (!response) {
+            return {
+                error: "no movie found for the corrsponding id provided",
+                code: 404
+            }
         }
+        return response;
+    } catch (error) {
+        console.log(error)
+        throw error;
     }
-    return movie;
+
 }
 
 export const updateMovieById = async (id, data) => {
