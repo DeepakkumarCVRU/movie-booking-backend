@@ -42,3 +42,15 @@ export const getTheatre = async (req, res) => {
         res.status(500).json(errorResponceBody)
     }
 }
+
+export const getAlltheatre = async (req, res) => {
+    try {
+        const response = await theatreService.getAllTheatre();
+        successResponceBody.data = response;
+        successResponceBody.message = " Successfully fetch all the theatres";
+        return res.status(200).json(successResponceBody)
+    } catch (error) {
+        errorResponceBody.err = error;
+        return res.status(500).json(errorResponceBody)
+    }
+}

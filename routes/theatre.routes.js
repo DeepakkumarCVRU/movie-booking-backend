@@ -6,5 +6,6 @@ const router = Router();
 
 router.post('/mba/api/v1/theatres', validateTheatreCreateRequest, theatreController.create);
 router.get('/mba/api/v1/theatres/:id', theatreController.getTheatre);
+router.get("/mba/api/v1/theatres", theatreController.getAlltheatre);
 
 export default router;

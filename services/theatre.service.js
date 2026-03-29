@@ -36,3 +36,13 @@ export const getTheatre = async (id) => {
         throw error;
     }
 }
+
+export const getAllTheatre = async () => {
+    try {
+        const response = await Theatre.find({});
+        return response;
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
