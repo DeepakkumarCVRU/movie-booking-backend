@@ -5,5 +5,6 @@ import { validateTheatreCreateRequest } from "../middleware/theatre.middleware.j
 const router = Router();
 
 router.post('/mba/api/v1/theatres', validateTheatreCreateRequest, theatreController.create);
+router.get('/mba/api/v1/theatres/:id', theatreController.getTheatre);
 
 export default router;

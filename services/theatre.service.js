@@ -20,3 +20,19 @@ export const createTheatre = async (data) => {
 
     }
 }
+
+export const getTheatre = async (id) => {
+    try {
+        const response = await Theatre.findById(id);
+        if (!response) {
+            return {
+                error: "no theatre found for the corrsponding id provided",
+                code: 404
+            }
+        }
+        return response;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
