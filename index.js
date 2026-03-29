@@ -7,8 +7,6 @@ import router from "./routes/movie.routes.js"
 import theatreRouter from "./routes/theatre.routes.js"
 
 
-
-
 const app = express() // express app object
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -23,9 +21,7 @@ const PORT = process.env.PORT || 3001
 app.use(router)
 app.use(theatreRouter)
 
-app.get("/", (req, res) => {
-    return res.send("hello from server home route")
-})
+
 
 app.listen(PORT, () => {
     //this call back execute when server is running

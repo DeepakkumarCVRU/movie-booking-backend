@@ -2,9 +2,14 @@ import Movie from "../model/Movie.model.js";
 
 
 
-export const createMOvie = async (movie) => {
+/**
+ * 
+ * @param data -> Object containg details of the new movie to be created  
+ * @returns -> return the new movie object created 
+*/
+export const createMOvie = async (data) => {
     try {
-        const savedMovie = await Movie.create(movie);
+        const savedMovie = await Movie.create(data);
         return savedMovie
 
     } catch (error) {
@@ -21,6 +26,13 @@ export const createMOvie = async (movie) => {
     }
 }
 
+
+//*
+// * 
+// * @param id -> id which will be used to identify the movie to be fetched
+// * @returns -> object containing movie fetched
+//*/
+
 export const getMovieById = async (id) => {
     const movie = await Movie.findById(id);
     console.log("movie details from services :  ", movie)
@@ -34,6 +46,13 @@ export const getMovieById = async (id) => {
     return movie;
 }
 
+
+
+/**
+ * 
+ * @param id -> id which will be used to identify the movie to deleted 
+ * @returns -> object containing the details of  movie deleted 
+*/
 export const deleteMovieById = async (id) => {
     try {
         const response = await Movie.findByIdAndDelete(id);
@@ -50,6 +69,14 @@ export const deleteMovieById = async (id) => {
     }
 
 }
+
+
+/**
+ * 
+ * @param id -> id which will be used to identify the movie to be updated 
+ * @param data -> object that contains actual data which is to be updated in the db
+ * @returns -> return the new updated movie details
+*/
 
 export const updateMovieById = async (id, data) => {
     try {
@@ -68,6 +95,14 @@ export const updateMovieById = async (id, data) => {
         }
     }
 }
+
+
+
+//*
+// * 
+// * @param filter -> fileter will help us in filtering out data based on condition it contains
+// * @returns -> return an object containing all the movie fetched based on the filter
+//*/
 
 export const getMovieByName = async (filter) => {
     let query = {};

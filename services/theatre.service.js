@@ -1,5 +1,12 @@
 import Theatre from "../model/theatre.model.js";
 
+
+/**
+ * 
+ * @param data -> data which will be used to create a theatre
+ * @returns -> object containing the details of the theatre created
+*/
+
 export const createTheatre = async (data) => {
     try {
         const response = await Theatre.create(data);
