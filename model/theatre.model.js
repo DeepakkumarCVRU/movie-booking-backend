@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { mongo } from "mongoose"
 
 
 const theatreSchema = new mongoose.Schema({
@@ -16,7 +16,11 @@ const theatreSchema = new mongoose.Schema({
         required: true,
         type: Number
     },
-    address: String
+    address: String,
+    movie: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "Movie"
+    }
 }, { timestamps: true })
 
 const Theatre = mongoose.model("theatre", theatreSchema)
