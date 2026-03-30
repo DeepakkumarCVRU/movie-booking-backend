@@ -1,5 +1,6 @@
 import Theatre from "../model/theatre.model.js";
 
+
 export const createTheatre = async (data) => {
     try {
         const response = await Theatre.create(data);
@@ -60,5 +61,47 @@ export const deleteTheatreById = async (id) => {
     } catch (error) {
         console.log(error);
         throw error;
+    }
+}
+
+export const updateMovieInTheatre = async (theatreId, movieIds, insert) => {
+    try {
+        const theatre = await Theatre.findById(theatreId);
+        console.log(theatre)
+
+        if (!theatre) {
+            return {
+                error: "no such theatre found for the id provided",
+                code: 404
+            }
+        }
+
+
+        if (insert) {
+            //we need to add movie
+            movieIds.forEach((movie_Id) => {
+                theatre.movie.push(movie_Id)
+            })
+        } else {
+            //we need to remove movie    , you have to fix this becouse add duplicate and remove all the movie if you have to remove
+            let savedMovieIds = theatre.movie;
+            console.log("all the data ", savedMovieIds)
+
+            movieIds.forEach((movie_Id) => {
+                savedMovieIds = savedMovieIds.filter(smi => smi == movie_Id);
+
+
+                theatre.movie = savedMovieIds;
+            })
+
+
+        }
+        await theatre.save();
+        await theatre.populate("movie")
+        return theatre;
+
+    } catch (error) {
+        console.log(error)
+        throw error
     }
 }

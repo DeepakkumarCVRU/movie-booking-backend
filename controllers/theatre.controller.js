@@ -74,3 +74,36 @@ export const deleteTheatre = async (req, res) => {
         return res.status(500).json({ errorResponceBody })
     }
 }
+
+
+/**
+ * 
+ * @param {id} req.params.id --> unique id of theatre for which we want to update movie  
+ * @param {movieId} req.body.movieId   ---> array of movie ids that are expected to be updated in thetre
+ * @param {isert} req.body.isert --> boolean that tell whether we want insert movie or remove movie 
+ * @returns -> updated theatres object 
+*/
+
+export const updateMovie = async (req, res) => {
+    try {
+        const response = await theatreService.updateMovieInTheatre(
+            req.params.id,
+            req.body.movieIds,
+            req.body.insert
+        )
+
+        if (response.error) {
+            errorResponceBody.err = response.err;
+            return res.status(response.code).json(errorResponceBody)
+        }
+
+        successResponceBody.data = response;
+        successResponceBody.message = "Successfully updated movie in the theatre ";
+        return res.status(200).json(successResponceBody)
+
+    } catch (error) {
+        console.log("error:", error)
+        errorResponceBody.err = error;
+        return res.status(500).json(errorResponceBody)
+    }
+}
