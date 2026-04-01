@@ -74,3 +74,73 @@ export const deleteTheatre = async (req, res) => {
         return res.status(500).json({ errorResponceBody })
     }
 }
+
+
+/**
+ * 
+ * @param {id} req.params.id --> unique id of theatre for which we want to update movie  
+ * @param {movieId} req.body.movieId   ---> array of movie ids that are expected to be updated in thetre
+ * @param {isert} req.body.isert --> boolean that tell whether we want insert movie or remove movie 
+ * @returns -> updated theatres object 
+*/
+
+export const updateMovie = async (req, res) => {
+    try {
+        const response = await theatreService.updateMovieInTheatre(
+            req.params.id,
+            req.body.movieIds,
+            req.body.insert
+        )
+
+        if (response.error) {
+            errorResponceBody.err = response.err;
+            return res.status(response.code).json(errorResponceBody)
+        }
+
+        successResponceBody.data = response;
+        successResponceBody.message = "Successfully updated movie in the theatre ";
+        return res.status(200).json(successResponceBody)
+
+    } catch (error) {
+        console.log("error:", error)
+        errorResponceBody.err = error;
+        return res.status(500).json(errorResponceBody)
+    }
+}
+
+
+// in this code lot of error so you can ignore it or fix it
+
+/* export const getAllMovieswithCondition = (req, res) => {
+
+    try {
+        const { name, city, pincode } = req.query;
+        console.log("allt theatre", name, city, pincode)
+        if (name || city || pincode) {
+            const response = theatreService.getAllTheatreWithCondition(req.query.name)
+            return res.status(200).json(response)
+        }
+    } catch (error) {
+
+    }
+} */
+
+
+
+export const updateTheatre = async (req, res) => {
+    try {
+        const response = await theatreService.updateTheatre(req.params.id, req.body);
+        if (response.err) {
+            errorResponceBody.err = response.err;
+
+            return res.status(response.code).json(errorResponceBody);
+        }
+        successResponceBody.data = response;
+        successResponceBody.message = "Successfully updated the theatre";
+        return res.status(200).json(successResponceBody)
+    } catch (error) {
+        console.log(error);
+        errorResponceBody.err = error;
+        return res.status(500).json(errorResponceBody)
+    }
+}

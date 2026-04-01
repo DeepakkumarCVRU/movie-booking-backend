@@ -1,5 +1,5 @@
 import mongoose, { mongo } from "mongoose"
-
+import Movie from "./movie.model.js"
 
 const theatreSchema = new mongoose.Schema({
     name: {
