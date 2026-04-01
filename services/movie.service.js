@@ -1,4 +1,4 @@
-import Movie from "../model/Movie.model.js";
+import Movie from "../model/movie.model.js";
 
 
 
