@@ -38,9 +38,22 @@ export const getTheatre = async (id) => {
     }
 }
 
-export const getAllTheatre = async () => {
+export const getAllTheatre = async (data) => {
     try {
-        const response = await Theatre.find({});
+
+        let query = {};
+        if (data && data.city) {
+            query.city = data.city;
+        }
+
+        if (data && data.pincode) {
+            query.pincode = data.pincode;
+        }
+        if (data && data.name) {
+            query.name = data.name;
+        }
+
+        const response = await Theatre.find(query);
         return response;
     } catch (error) {
         console.log(error)
@@ -180,3 +193,5 @@ export const updateTheatre = async (id, data) => {
         }
     }
 }
+
+
