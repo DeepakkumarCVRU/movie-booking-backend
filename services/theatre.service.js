@@ -42,18 +42,31 @@ export const getAllTheatre = async (data) => {
     try {
 
         let query = {};
+        let pagination = {};
         if (data && data.city) {
+            // this checks whether city is present in query params or not
             query.city = data.city;
         }
 
         if (data && data.pincode) {
+            // this checks whether pincode is present in query params or not
             query.pincode = data.pincode;
         }
         if (data && data.name) {
+            // this checks whether name is present in query params or not
             query.name = data.name;
         }
+        if (data && data.limit) {
+            pagination.limit = data.limit;
+        }
+        if (data && data.skip) {
+            // let perpage = data.perpage ? data.perpage : 5
 
-        const response = await Theatre.find(query);
+            // for first page we send skip as 0
+            let perpage = data.limit ? data.limit : 5
+            pagination.skip = data.skip * perpage;
+        }
+        const response = await Theatre.find(query, {}, pagination);
         return response;
     } catch (error) {
         console.log(error)
