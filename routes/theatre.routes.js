@@ -12,4 +12,10 @@ router.patch("/mba/api/v1/theatres/:id/movies", validateUpdateMovie, theatreCont
 router.patch("/mba/api/v1/theatres/:id", theatreController.updateTheatre)
 router.put("/mba/api/v1/theatres/:id", theatreController.updateTheatre)
 
+
+router.get(
+    "/mba/api/v1/theatres/:id/movies",
+    theatreController.getMovieInTheatre
+)
+
 export default router;

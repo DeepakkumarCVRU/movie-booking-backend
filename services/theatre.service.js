@@ -1,5 +1,4 @@
 import Theatre from "../model/theatre.model.js";
-import Movie from "../model/movie.model.js";
 
 export const createTheatre = async (data) => {
     try {
@@ -83,7 +82,7 @@ export const getAllTheatre = async (data) => {
         const response = await Theatre.find(query, {}, pagination);
         return response;
     } catch (error) {
-        console.log(error)
+        console.log("this from error in theatre .services ", error)
         throw error
     }
 }
@@ -186,4 +185,24 @@ export const updateTheatre = async (id, data) => {
     }
 }
 
-
+export const getMoviesInATheatre = async (id) => {
+    try {
+        const theatre = await Theatre.findById(id, { name: 1, movie: 1, address: 1 }).populate("movie");
+        if (!theatre) {
+            return {
+                err: "no theatre with the  given id found ",
+                code: 404
+            }
+        }
+        return theatre;
+    } catch (error) {
+        if (error.name == "CastError") {
+            return {
+                err: "this theatre id is not valid , check the id and try again",
+                code: 404
+            }
+        }
+        console.log(error)
+        throw error;
+    }
+}
