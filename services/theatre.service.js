@@ -1,5 +1,5 @@
 import Theatre from "../model/theatre.model.js";
-
+import Movie from "../model/movie.model.js";
 
 export const createTheatre = async (data) => {
     try {
@@ -56,6 +56,20 @@ export const getAllTheatre = async (data) => {
             // this checks whether name is present in query params or not
             query.name = data.name;
         }
+
+        if (data && data.movieId) {
+
+            // query.movie = data.movieId;
+
+            // {or} you can write up this way or down this way 
+
+            query.movie = { $all: data.movieId }
+
+            // or 
+
+            //query .movie = {$all:[data.movieId]}
+        }
+
         if (data && data.limit) {
             pagination.limit = data.limit;
         }

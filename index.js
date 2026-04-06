@@ -5,6 +5,7 @@ import connectDB from "./db/ConnectDB.js"
 import cors from "cors"
 import router from "./routes/movie.routes.js"
 import theatreRouter from "./routes/theatre.routes.js"
+import mongoose from "mongoose"
 
 
 
@@ -22,6 +23,13 @@ connectDB();
 const PORT = process.env.PORT || 3001
 app.use(router)
 app.use(theatreRouter)
+
+// Source - https://stackoverflow.com/a/18763020
+// Posted by mr.freeze, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-04-06, License - CC BY-SA 3.0
+
+// mongoose.set('debug', true);
+
 
 app.get("/", (req, res) => {
     return res.send("hello from server home route")
