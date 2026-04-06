@@ -92,28 +92,6 @@ export const deleteTheatreById = async (id) => {
 
 export const updateMovieInTheatre = async (theatreId, movieIds, insert) => {
     try {
-        //const theatre = await Theatre.findById(theatreId);
-
-        // code which written by you tube where you have to add or remove movie
-
-        /*  if (insert) {
-              //we need to add movie
-              movieIds.forEach((movie_Id) => {
-                  theatre.movie.push(movie_Id)
-              })
-          } else {
-              //we need to remove movie    , you have to fix this becouse add duplicate and remove all the movie if you have to remove
-              let savedMovieIds = theatre.movie;
-  
-              movieIds.forEach((movie_Id) => {
-                  savedMovieIds = savedMovieIds.filter(smi => smi !== movie_Id);
-  
-                  theatre.movie = savedMovieIds;
-              })
-  
-  
-          }
-              */
 
 
         let theatres;
@@ -143,41 +121,28 @@ export const updateMovieInTheatre = async (theatreId, movieIds, insert) => {
         await theatres.populate("movie")
         return theatres;
 
+
+
     } catch (error) {
+
+        if (error.name == "TypeError") {
+            return {
+                error: "no such theatre found for the id provided , check the id and try again",
+                code: 404
+            }
+        }
+
+        if (error.name == "CastError") {
+            return {
+                error: "theatre id is not valid , check the id and try again",
+                code: 404
+            }
+        }
+
         console.log(error)
         throw error
     }
 }
-
-
-// in this code lot of error so you can ignore it or fix it
-
-/* export const getAllTheatreWithCondition = async (data) => {
-    try {
-
-        let query = {};
-
-        if (data && data.city) {
-            query.city = data.city;
-        }
-
-        if (data && data.pincode) {
-            query.pincode = data.pincode;
-        }
-        if (data && data.name) {
-            query.name = data.name;
-        }
-
-        console.log(query)
-
-
-        const response = await Theatre.find(query);
-        return response;
-    } catch (error) {
-        console.log(error)
-        throw error
-    }
-} */
 
 
 export const updateTheatre = async (id, data) => {
