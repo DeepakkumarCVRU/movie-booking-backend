@@ -94,7 +94,7 @@ export const updateMovie = async (req, res) => {
         )
 
         if (response.error) {
-            errorResponceBody.err = response.err;
+            errorResponceBody.err = response.error;
             return res.status(response.code).json(errorResponceBody)
         }
 
@@ -108,23 +108,6 @@ export const updateMovie = async (req, res) => {
         return res.status(500).json(errorResponceBody)
     }
 }
-
-
-// in this code lot of error so you can ignore it or fix it
-
-/* export const getAllMovieswithCondition = (req, res) => {
-
-    try {
-        const { name, city, pincode } = req.query;
-        console.log("allt theatre", name, city, pincode)
-        if (name || city || pincode) {
-            const response = theatreService.getAllTheatreWithCondition(req.query.name)
-            return res.status(200).json(response)
-        }
-    } catch (error) {
-
-    }
-} */
 
 
 
