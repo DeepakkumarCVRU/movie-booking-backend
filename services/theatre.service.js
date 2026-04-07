@@ -1,6 +1,5 @@
 import Theatre from "../model/theatre.model.js";
 
-
 export const createTheatre = async (data) => {
     try {
         const response = await Theatre.create(data);
@@ -56,6 +55,20 @@ export const getAllTheatre = async (data) => {
             // this checks whether name is present in query params or not
             query.name = data.name;
         }
+
+        if (data && data.movieId) {
+
+            // query.movie = data.movieId;
+
+            // {or} you can write up this way or down this way 
+
+            query.movie = { $all: data.movieId }
+
+            // or 
+
+            //query .movie = {$all:[data.movieId]}
+        }
+
         if (data && data.limit) {
             pagination.limit = data.limit;
         }
@@ -69,7 +82,7 @@ export const getAllTheatre = async (data) => {
         const response = await Theatre.find(query, {}, pagination);
         return response;
     } catch (error) {
-        console.log(error)
+        console.log("this from error in theatre .services ", error)
         throw error
     }
 }
@@ -172,4 +185,44 @@ export const updateTheatre = async (id, data) => {
     }
 }
 
+export const getMoviesInATheatre = async (id) => {
+    try {
+        const theatre = await Theatre.findById(id, { name: 1, movie: 1, address: 1 }).populate("movie");
+        if (!theatre) {
+            return {
+                err: "no theatre with the  given id found ",
+                code: 404
+            }
+        }
+        return theatre;
+    } catch (error) {
+        if (error.name == "CastError") {
+            return {
+                err: "this theatre id is not valid , check the id and try again",
+                code: 404
+            }
+        }
+        console.log(error)
+        throw error;
+    }
+}
 
+
+export const checkMovieInATheatre = async (theatreId, movieId) => {
+    try {
+
+        let response = await Theatre.findById(theatreId)
+        if (!response) {
+            return {
+                err: "no theatre with the  given id found  ",
+                code: 404
+            }
+        }
+
+        // {do you understnad this if not , then google it or watch a video on youtube about it and know more for better understanding of this}
+        return response.movie.indexOf(movieId) != -1;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}

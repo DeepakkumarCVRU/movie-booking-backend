@@ -51,7 +51,7 @@ export const getAlltheatre = async (req, res) => {
         successResponceBody.message = " Successfully fetch all the theatres";
         return res.status(200).json(successResponceBody)
     } catch (error) {
-        errorResponceBody.err = error;
+        errorResponceBody.err = error.err;
         return res.status(500).json(errorResponceBody)
     }
 }
@@ -124,6 +124,46 @@ export const updateTheatre = async (req, res) => {
         return res.status(200).json(successResponceBody)
     } catch (error) {
         console.log(error);
+        errorResponceBody.err = error;
+        return res.status(500).json(errorResponceBody)
+    }
+}
+
+
+
+export const getMovieInTheatre = async (req, res) => {
+    try {
+        const response = await theatreService.getMoviesInATheatre(req.params.id)
+
+        if (response.err) {
+            errorResponceBody.err = response.err;
+            return res.status(response.code).json(errorResponceBody)
+        }
+
+        successResponceBody.data = response;
+        successResponceBody.message = "successfully fetch the movie data which running in a theatre"
+        return res.status(200).json(successResponceBody)
+
+    } catch (error) {
+        errorResponceBody.err = error;
+        return res.status(error.code).json(errorResponceBody)
+
+    }
+}
+
+export const checkMovie = async (req, res) => {
+    try {
+        const response = await theatreService.checkMovieInATheatre(req.params.theatresId, req.params.movieId)
+
+        if (response.err) {
+            errorResponceBody.err = response.err;
+            return res.status(response.code).json(errorResponceBody)
+        }
+
+        successResponceBody.data = response;
+        successResponceBody.message = "Successfully checked the movie in a theatre"
+        return res.status(200).json(successResponceBody)
+    } catch (error) {
         errorResponceBody.err = error;
         return res.status(500).json(errorResponceBody)
     }
