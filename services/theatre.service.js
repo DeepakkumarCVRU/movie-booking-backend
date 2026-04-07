@@ -206,3 +206,23 @@ export const getMoviesInATheatre = async (id) => {
         throw error;
     }
 }
+
+
+export const checkMovieInATheatre = async (theatreId, movieId) => {
+    try {
+
+        let response = await Theatre.findById(theatreId)
+        if (!response) {
+            return {
+                err: "no theatre with the  given id found  ",
+                code: 404
+            }
+        }
+
+        // {do you understnad this if not , then google it or watch a video on youtube about it and know more for better understanding of this}
+        return response.movie.indexOf(movieId) != -1;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
