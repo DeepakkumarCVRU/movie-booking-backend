@@ -6,6 +6,7 @@ import cors from "cors"
 import router from "./routes/movie.routes.js"
 import theatreRouter from "./routes/theatre.routes.js"
 import mongoose from "mongoose"
+import authRouter from "./routes/auth.routes.js"
 
 
 
@@ -23,6 +24,7 @@ connectDB();
 const PORT = process.env.PORT || 3001
 app.use(router)
 app.use(theatreRouter)
+app.use(authRouter)
 
 // Source - https://stackoverflow.com/a/18763020
 // Posted by mr.freeze, modified by community. See post 'Timeline' for change history
