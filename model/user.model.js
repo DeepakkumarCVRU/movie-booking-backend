@@ -67,7 +67,9 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.isValidPassword = async function (plainPassword) {
     const currentUser = this;
+
     const compare = await bcrypt.compare(plainPassword, currentUser.password);
+
     return compare
 }
 
