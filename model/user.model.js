@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt"
+import { USER_STATUS, USER_ROLE } from "../utils/constant.js";
+
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -25,14 +28,33 @@ const userSchema = new mongoose.Schema({
     userType: {
         type: String,
         requied: true,
-        default: "CUSTOMER"
+        enum: {
+            values: [USER_ROLE.admin, USER_ROLE.customer, USER_ROLE.client],
+            message: "Invalid userrole given "
+        },
+        default: USER_ROLE.customer
     },
     userStatus: {
         type: String,
         required: true,
-        default: "APPROVED"
+        enum: {
+            values: [USER_STATUS.aproved, USER_STATUS.pending, USER_STATUS.rejected],
+            message: "Invalid userStatus given by user "
+        },
+        default: USER_STATUS.aproved
     }
 }, { timestamps: true })
+
+
+// if you don't know about pre post middleware in mongoose then watch a video on youtube about it
+
+userSchema.pre("save", async function (next) {
+    //{ you think why not use arrow function insted of traditional function becouse arrow function does not have its own this keyword }
+    // { A trigger to hash the password before saving it to the database, so that the password is not stored as plain text in the database }
+    const hash = await bcrypt.hash(this.password, 10)
+
+    this.password = hash;
+})
 
 const userModel = mongoose.model("User ", userSchema)
 export default userModel;
