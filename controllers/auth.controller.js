@@ -7,8 +7,12 @@ export const signUp = async (req, res) => {
         successResponceBody.message = " user created successfully ";
         return res.status(201).json(successResponceBody);
     } catch (error) {
-        errorResponceBody.err = error;
-        errorResponceBody.message = " something went wrong "
+        if (error.err) {
+            errorResponceBody.err = error.err;
+            return res.status(error.code).json(errorResponceBody)
+        }
+
+        errorResponceBody.err = error
         return res.status(500).json(errorResponceBody)
     }
 }

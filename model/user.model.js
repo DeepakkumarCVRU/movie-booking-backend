@@ -41,7 +41,7 @@ userSchema.pre("save", async function (next) {
     //{ you think why not use arrow function insted of traditional function becouse arrow function does not have its own this keyword }
     // { A trigger to hash the password before saving it to the database, so that the password is not stored as plain text in the database }
     const hash = await bcrypt.hash(this.password, 10)
-    console.log("this from hash ", hash)
+
     this.password = hash;
 })
 
