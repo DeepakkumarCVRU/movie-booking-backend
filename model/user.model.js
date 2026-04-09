@@ -56,5 +56,20 @@ userSchema.pre("save", async function (next) {
     this.password = hash;
 })
 
+
+
+
+/**
+ * this is goint to be a instace method for user , to compare a password with the store encripted password
+ * @param {String} plainPassword  -> input password given by user in sign in request
+ * @returns {Boolean} -> boolean donating whether the password is valid/same or not
+**/
+
+userSchema.methods.isValidPassword = async function (plainPassword) {
+    const currentUser = this;
+    const compare = await bcrypt.compare(plainPassword, currentUser.password);
+    return compare
+}
+
 const userModel = mongoose.model("User ", userSchema)
 export default userModel;

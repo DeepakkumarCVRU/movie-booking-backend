@@ -10,7 +10,6 @@ export const createUser = async (userData) => {
             }
         }
 
-        console.log(userData.userRole, userData.userStatus)
         if (userData.userRole && userData.userRole !== USER_ROLE.customer) {
             userData.userType = userData.userRole
             userData.userStatus = USER_STATUS.pending;
