@@ -38,7 +38,7 @@ export const signIn = async (req, res) => {
             { expiresIn: "1h" }
         )
 
-        console.log(jwt.verify(token, process.env.SECRET_KEY))
+
 
         successResponceBody.data = {
             email: user.email,

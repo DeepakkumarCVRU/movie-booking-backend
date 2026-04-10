@@ -13,6 +13,7 @@ authRouter.post(
 
 authRouter.post(
     "/mba/api/v1/auth/signin",
+    authMiddleware.validateSignInRequest,
     authController.signIn
 );
 
