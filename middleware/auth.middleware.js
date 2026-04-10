@@ -1,5 +1,6 @@
+import jwt from "jsonwebtoken"
 import { errorResponceBody } from "../utils/responce.js";
-
+import { getUserById } from "../services/user.service.js";
 
 /**
  * validator for user sign Up
@@ -52,4 +53,49 @@ export const validateSignInRequest = (req, res, next) => {
 
     // request is valid
     next();
+}
+
+export const IsAuthenticated = async (req, res, next) => {
+
+    try {
+        const token = await req.headers["x-access-token"];
+        console.log(token)
+        if (!token) {
+            errorResponceBody.err = "No token provided";
+            return res.status(403).json(errorResponceBody)
+        }
+
+        const response = jwt.verify(token, process.env.SECRET_KEY)
+        if (!response) {
+            errorResponceBody.err = "Token is not verified";
+            return res.status(401).json(errorResponceBody)
+        }
+
+        const user = await getUserById(response.id)
+
+        req.user = req.id;
+        next()
+
+    } catch (error) {
+        console.log(error);
+
+        if (error.name == "JsonWebTokenError") {
+            errorResponceBody.err = error.message;
+
+            return res.status(401).json(errorResponceBody)
+        }
+
+        if (error.err) {
+            errorResponceBody.err = error.err;
+            errorResponceBody.message = "User not found";
+            return res.status(error.code).json(errorResponceBody)
+        }
+        errorResponceBody.err = error;
+        return res.status(500).json(errorResponceBody)
+    }
+
+
+
+
+
 }

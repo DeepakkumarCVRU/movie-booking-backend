@@ -46,3 +46,17 @@ export const getUserByEmail = async (email) => {
         throw error;
     }
 }
+
+
+export const getUserById = async (req, res) => {
+    try {
+        const response = await userModel.findOne(req.id)
+        if (!response) {
+            throw { err: "User not found ", code: 404 }
+        }
+        return response;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
