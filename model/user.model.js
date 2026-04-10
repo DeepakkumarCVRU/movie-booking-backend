@@ -46,6 +46,24 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 
+
+
+
+/**
+ * this is goint to be a instace method for user , to compare a password with the store encripted password
+ * @param {String} plainPassword  -> input password given by user in sign in request
+ * @returns {Boolean} -> boolean donating whether the password is valid/same or not
+**/
+
+userSchema.methods.isValidPassword = async function (plainPassword) {
+    const currentUser = this;
+
+    const compare = await bcrypt.compare(plainPassword, currentUser.password);
+
+    return compare
+}
+
+
 // if you don't know about pre post middleware in mongoose then watch a video on youtube about it
 
 userSchema.pre("save", async function (next) {
@@ -53,8 +71,11 @@ userSchema.pre("save", async function (next) {
     // { A trigger to hash the password before saving it to the database, so that the password is not stored as plain text in the database }
     const hash = await bcrypt.hash(this.password, 10)
 
+
+
     this.password = hash;
 })
 
-const userModel = mongoose.model("User ", userSchema)
+
+const userModel = mongoose.model("User", userSchema)
 export default userModel;

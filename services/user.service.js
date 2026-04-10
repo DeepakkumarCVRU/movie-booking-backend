@@ -10,7 +10,6 @@ export const createUser = async (userData) => {
             }
         }
 
-        console.log(userData.userRole, userData.userStatus)
         if (userData.userRole && userData.userRole !== USER_ROLE.customer) {
             userData.userType = userData.userRole
             userData.userStatus = USER_STATUS.pending;
@@ -30,5 +29,36 @@ export const createUser = async (userData) => {
 
         throw error;
 
+    }
+}
+
+export const getUserByEmail = async (email) => {
+    try {
+        console.log(email)
+        const response = await userModel.findOne({ email: email })
+        console.log(response)
+        if (!response) {
+            throw { err: "No user found for the given email", code: 404 }
+        }
+
+        return response;
+
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+
+export const getUserById = async (req, res) => {
+    try {
+        const response = await userModel.findOne(req.userId)
+        if (!response) {
+            throw { err: "User not found ", code: 404 }
+        }
+        return response;
+    } catch (error) {
+        console.log(error)
+        throw error;
     }
 }
