@@ -17,4 +17,10 @@ authRouter.post(
     authController.signIn
 );
 
+authRouter.patch(
+    "/mba/api/v1/auth/reset-password",
+    authMiddleware.IsAuthenticated,
+    authController.resetPassword
+)
+
 export default authRouter;

@@ -34,7 +34,9 @@ export const createUser = async (userData) => {
 
 export const getUserByEmail = async (email) => {
     try {
+        console.log(email)
         const response = await userModel.findOne({ email: email })
+        console.log(response)
         if (!response) {
             throw { err: "No user found for the given email", code: 404 }
         }
@@ -50,7 +52,7 @@ export const getUserByEmail = async (email) => {
 
 export const getUserById = async (req, res) => {
     try {
-        const response = await userModel.findOne(req.id)
+        const response = await userModel.findOne(req.userId)
         if (!response) {
             throw { err: "User not found ", code: 404 }
         }

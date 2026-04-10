@@ -59,7 +59,7 @@ export const IsAuthenticated = async (req, res, next) => {
 
     try {
         const token = await req.headers["x-access-token"];
-        console.log(token)
+
         if (!token) {
             errorResponceBody.err = "No token provided";
             return res.status(403).json(errorResponceBody)
@@ -73,7 +73,7 @@ export const IsAuthenticated = async (req, res, next) => {
 
         const user = await getUserById(response.id)
 
-        req.user = req.id;
+        req.userId = user.id;
         next()
 
     } catch (error) {
