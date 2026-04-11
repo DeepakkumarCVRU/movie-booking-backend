@@ -29,19 +29,20 @@ export const getTheatre = async (req, res) => {
 
     try {
         const response = await theatreService.getTheatre(req.params.id);
-        if (response.error) {
-            errorResponceBody.err = response.error;
-
-            return res.statu(response.code).json(errorResponceBody);
-        }
 
         successResponceBody.data = response;
         successResponceBody.message = " Successfully fetched the data of the theatre";
         res.status(STATUS_CODE.OK).json(successResponceBody);
     } catch (error) {
         console.log(error)
+
+        if (error.err) {
+            errorResponceBody.err = error.err;
+            return res.status(error.code).json(errorResponceBody)
+        }
+
         errorResponceBody.err = error;
-        res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponceBody)
+        return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponceBody)
     }
 }
 
