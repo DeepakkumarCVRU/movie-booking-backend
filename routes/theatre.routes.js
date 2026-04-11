@@ -1,13 +1,15 @@
 import { Router } from "express"
 import * as theatreController from "../controllers/theatre.controller.js"
 import { validateTheatreCreateRequest, validateUpdateMovie } from "../middleware/theatre.middleware.js";
-import { IsAuthenticated } from "../middleware/auth.middleware.js";
+import * as authMiddleware from "../middleware/auth.middleware.js";
 
 const router = Router();
 
 //{create theatre}
 router.post(
     '/mba/api/v1/theatres',
+    authMiddleware.IsAuthenticated,
+    authMiddleware.isAdminOrClient,
     validateTheatreCreateRequest,
     theatreController.create
 );
@@ -35,18 +37,34 @@ router.get(
 // {delete theatre by id}
 router.delete(
     "/mba/api/v1/theatres/:id",
-    IsAuthenticated,
-    theatreController.deleteTheatre)
+    authMiddleware.IsAuthenticated,
+    authMiddleware.isAdminOrClient,
+    theatreController.deleteTheatre
+);
 
 //{update movie in a theatre , we can add movie in a theatre or remove movie from a theatre}
 router.patch(
     "/mba/api/v1/theatres/:id/movies",
-    validateUpdateMovie, theatreController.updateMovie
+    authMiddleware.IsAuthenticated,
+    authMiddleware.isAdminOrClient,
+    validateUpdateMovie,
+    theatreController.updateMovie
 )
 
 // {update theatre details}
-router.patch("/mba/api/v1/theatres/:id", theatreController.updateTheatre)
-router.put("/mba/api/v1/theatres/:id", theatreController.updateTheatre)
+router.patch(
+    "/mba/api/v1/theatres/:id",
+    authMiddleware.IsAuthenticated,
+    authMiddleware.isAdminOrClient,
+    theatreController.updateTheatre
+)
+
+router.put(
+    "/mba/api/v1/theatres/:id",
+    authMiddleware.IsAuthenticated,
+    authMiddleware.isAdminOrClient,
+    theatreController.updateTheatre
+)
 
 // {get all the movies in a particular theatre , whenever i going to specific theatre i can get all the movies which running in that theatre}
 router.get(

@@ -1,12 +1,12 @@
 import userModel from "../model/user.model.js";
-import { USER_STATUS, USER_ROLE } from "../utils/constant.js"
+import { USER_STATUS, USER_ROLE, STATUS_CODE } from "../utils/constant.js"
 
 export const createUser = async (userData) => {
     try {
 
         if (!userData.userRole || userData.userRole == USER_ROLE.customer) {
             if (userData.userStatus && userData.userStatus !== USER_STATUS.aproved) {
-                throw { err: "we can not set any other status for costomer", code: 400 }
+                throw { err: "we can not set any other status for costomer", code: STATUS_CODE.BAD_REQUEST }
             }
         }
 
@@ -50,11 +50,11 @@ export const getUserByEmail = async (email) => {
 }
 
 
-export const getUserById = async (req, res) => {
+export const getUserById = async (userId) => {
     try {
-        const response = await userModel.findOne(req.userId)
+        const response = await userModel.findOne({ _id: userId })
         if (!response) {
-            throw { err: "User not found ", code: 404 }
+            throw { err: "User not found ", code: STATUS_CODE.NOT_FOUND }
         }
         return response;
     } catch (error) {
@@ -62,3 +62,39 @@ export const getUserById = async (req, res) => {
         throw error;
     }
 }
+
+
+// this code is not working properly , you can go userModel and find the problem what not working , thank you
+
+export const updateUserRoleOrStatus = async (data, userId) => {
+    try {
+        const updateQuery = {};
+        if (data.userRole) updateQuery.userRole = data.userRole;
+        if (data.userStatus) updateQuery.userStatus = data.userStatus;
+
+
+
+        const response = await userModel.findByIdAndUpdate(
+            {
+                _id: userId
+            }, updateQuery, { returnDocument: "after", runValidators: true })
+
+        if (!response) {
+            throw { err: " No user found for the given Id", code: STATUS_CODE.NOT_FOUND }
+        }
+        return response;
+
+    } catch (error) {
+        console.log(error)
+
+        if (error.name == "ValidationError") {
+            let err = {};
+            Object.keys(error.errors).forEach((key) => {
+                err[key] = error.errors[key].message;
+            })
+            throw { err: err, code: STATUS_CODE.BAD_REQUEST }
+        }
+
+        throw error;
+    }
+} 

@@ -20,6 +20,7 @@ authRouter.post(
 authRouter.patch(
     "/mba/api/v1/auth/reset-password",
     authMiddleware.IsAuthenticated,
+    authMiddleware.validResetPasswordRequest,
     authController.resetPassword
 )
 
