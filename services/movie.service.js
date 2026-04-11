@@ -1,4 +1,5 @@
 import Movie from "../model/movie.model.js";
+import { STATUS_CODE } from "../utils/constant.js";
 
 
 
@@ -14,7 +15,7 @@ export const createMOvie = async (movie) => {
                 err[key] = error.errors[key].message
             })
             console.log(err)
-            return { err: err, code: 422 }
+            return { err: err, code: STATUS_CODE.UNPROCESSABLE_ENTITY }
         } else {
             throw error;
         }
@@ -25,9 +26,9 @@ export const getMovieById = async (id) => {
     const movie = await Movie.findById(id);
     console.log("movie details from services :  ", movie)
     if (!movie) {
-        return {
-            error: "no movie found for the corrsponding id provided",
-            code: 404
+        throw {
+            err: "no movie found for the corrsponding id provided",
+            code: STATUS_CODE.NOT_FOUND
         }
     }
 
@@ -40,7 +41,7 @@ export const deleteMovieById = async (id) => {
         if (!response) {
             return {
                 error: "no movie found for the corrsponding id provided",
-                code: 404
+                code: STATUS_CODE.NOT_FOUND
             }
         }
         return response;
@@ -62,7 +63,7 @@ export const updateMovieById = async (id, data) => {
                 err[key] = error.errors[key].message
             })
             console.log(err)
-            return { err: err, code: 422 }
+            return { err: err, code: STATUS_CODE.UNPROCESSABLE_ENTITY }
         } else {
             throw error;
         }
@@ -81,7 +82,7 @@ export const getMovieByName = async (filter) => {
     if (!movie) {
         return {
             err: "not able to find the queries movie",
-            code: 404
+            code: STATUS_CODE.NOT_FOUND
         }
     }
     return movie;

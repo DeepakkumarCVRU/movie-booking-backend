@@ -1,5 +1,6 @@
 
 import * as movieService from "../services/movie.service.js"
+import { STATUS_CODE } from "../utils/constant.js";
 import { errorResponceBody, successResponceBody } from "../utils/responce.js"
 
 
@@ -19,12 +20,12 @@ export const createMovie = async (req, res) => {
 
         successResponceBody.data = response,
             successResponceBody.message = "sucessfully created a new Movie"
-        return res.status(201).json(successResponceBody)
+        return res.status(STATUS_CODE.CREATED).json(successResponceBody)
 
     } catch (error) {
 
         console.log("error name : ", error)
-        return res.status(500).json(errorResponceBody)
+        return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponceBody)
     }
 }
 
@@ -33,16 +34,17 @@ export const getmovie = async (req, res) => {
         const { movieId } = req.params;
         const responce = await movieService.getMovieById(movieId)
 
-        if (responce.error) {
-            errorResponceBody.err = responce.err;
-            return res.status(responce.code).json(errorResponceBody)
-        }
         successResponceBody.message = "sucessfully fetched the movie"
         successResponceBody.data = responce
-        return res.status(200).json(successResponceBody)
+        return res.status(STATUS_CODE.OK).json(successResponceBody)
     } catch (error) {
         console.log(error)
-        return res.status(500).json(errorResponceBody)
+        if (error.err) {
+            errorResponceBody.err = error.err;
+            return res.status(error.code).json(errorResponceBody)
+        }
+        errorResponceBody.err = error;
+        return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponceBody)
     }
 }
 
@@ -59,11 +61,11 @@ export const deletemovie = async (req, res) => {
 
         successResponceBody.message = "sucessfully deleted the movie"
         successResponceBody.data = responce
-        return res.status(200).json({ successResponceBody })
+        return res.status(STATUS_CODE.OK).json({ successResponceBody })
 
     } catch (error) {
         console.log(error)
-        return res.status(500).json(errorResponceBody)
+        return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponceBody)
     }
 }
 
@@ -77,11 +79,11 @@ export const updateMovie = async (req, res) => {
         }
         successResponceBody.data = response;
 
-        return res.status(200).json({ successResponceBody })
+        return res.status(STATUS_CODE.OK).json({ successResponceBody })
     } catch (error) {
         console.log(error)
         errorResponceBody.err = error;
-        res.status(500).json(errorResponceBody)
+        res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponceBody)
     }
 }
 
@@ -96,10 +98,10 @@ export const getMovieByName = async (req, res) => {
         }
 
         successResponceBody.data = response;
-        return res.status(200).json({ successResponceBody })
+        return res.status(STATUS_CODE.OK).json({ successResponceBody })
     } catch (error) {
         console.log(error)
         errorResponceBody.err = error;
-        res.status(500).json(errorResponceBody)
+        res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponceBody)
     }
 }
