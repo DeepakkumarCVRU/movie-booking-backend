@@ -1,8 +1,7 @@
 import { errorResponceBody, successResponceBody } from "../utils/responce.js"
 import * as userService from "../services/user.service.js"
 import jwt from "jsonwebtoken"
-import bcrypt from "bcrypt"
-import userModel from "../model/user.model.js"
+
 
 
 export const signUp = async (req, res) => {
