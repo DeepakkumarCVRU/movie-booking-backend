@@ -39,8 +39,8 @@ export const deleteMovieById = async (id) => {
     try {
         const response = await Movie.findByIdAndDelete(id);
         if (!response) {
-            return {
-                error: "no movie found for the corrsponding id provided",
+            throw {
+                err: "no movie found for the corrsponding id provided",
                 code: STATUS_CODE.NOT_FOUND
             }
         }

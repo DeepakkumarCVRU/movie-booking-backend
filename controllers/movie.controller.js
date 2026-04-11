@@ -54,10 +54,6 @@ export const deletemovie = async (req, res) => {
         const { movieId } = req.params;
         const responce = await movieService.deleteMovieById(movieId);
 
-        if (responce.error) {
-            errorResponceBody.err = responce.error;
-            return res.status(responce.code).json(errorResponceBody)
-        }
 
         successResponceBody.message = "sucessfully deleted the movie"
         successResponceBody.data = responce
@@ -65,6 +61,11 @@ export const deletemovie = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+        if (error.err) {
+            errorResponceBody.err = error.err;
+            return res.status(error.code).json(errorResponceBody)
+        }
+        errorResponceBody.err = error;
         return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponceBody)
     }
 }
