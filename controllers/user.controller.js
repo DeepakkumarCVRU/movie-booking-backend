@@ -1,4 +1,5 @@
 import * as userService from "../services/user.service.js"
+import { STATUS_CODE } from "../utils/constant.js"
 import { errorResponceBody, successResponceBody } from "../utils/responce.js"
 
 
@@ -13,7 +14,7 @@ export const updateUser = async (req, res) => {
 
         successResponceBody.data = response;
         successResponceBody.message = " successfully updated the user "
-        return res.status(200).json(successResponceBody)
+        return res.status(STATUS_CODE.OK).json(successResponceBody)
 
     } catch (error) {
         console.log(error);
@@ -23,7 +24,7 @@ export const updateUser = async (req, res) => {
             return res.status(error.code).json(errorResponceBody)
         }
         errorResponceBody.err = error;
-        return res.status(500).json(errorResponceBody)
+        return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponceBody)
     }
 }
 

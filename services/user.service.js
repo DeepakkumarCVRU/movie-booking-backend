@@ -1,12 +1,12 @@
 import userModel from "../model/user.model.js";
-import { USER_STATUS, USER_ROLE } from "../utils/constant.js"
+import { USER_STATUS, USER_ROLE, STATUS_CODE } from "../utils/constant.js"
 
 export const createUser = async (userData) => {
     try {
 
         if (!userData.userRole || userData.userRole == USER_ROLE.customer) {
             if (userData.userStatus && userData.userStatus !== USER_STATUS.aproved) {
-                throw { err: "we can not set any other status for costomer", code: 400 }
+                throw { err: "we can not set any other status for costomer", code: STATUS_CODE.BAD_REQUEST }
             }
         }
 
@@ -54,7 +54,7 @@ export const getUserById = async (userId) => {
     try {
         const response = await userModel.findOne({ _id: userId })
         if (!response) {
-            throw { err: "User not found ", code: 404 }
+            throw { err: "User not found ", code: STATUS_CODE.NOT_FOUND }
         }
         return response;
     } catch (error) {
@@ -80,7 +80,7 @@ export const updateUserRoleOrStatus = async (data, userId) => {
             }, updateQuery, { returnDocument: "after", runValidators: true })
 
         if (!response) {
-            throw { err: " No user found for the given Id", code: 404 }
+            throw { err: " No user found for the given Id", code: STATUS_CODE.NOT_FOUND }
         }
         return response;
 
@@ -92,7 +92,7 @@ export const updateUserRoleOrStatus = async (data, userId) => {
             Object.keys(error.errors).forEach((key) => {
                 err[key] = error.errors[key].message;
             })
-            throw { err: err, code: 400 }
+            throw { err: err, code: STATUS_CODE.BAD_REQUEST }
         }
 
         throw error;
