@@ -63,7 +63,7 @@ export const updateMovieById = async (id, data) => {
                 err[key] = error.errors[key].message
             })
             console.log(err)
-            return { err: err, code: STATUS_CODE.UNPROCESSABLE_ENTITY }
+            throw { err: err, code: STATUS_CODE.UNPROCESSABLE_ENTITY }
         } else {
             throw error;
         }
@@ -80,7 +80,7 @@ export const getMovieByName = async (filter) => {
 
     let movie = await Movie.find(query)
     if (!movie) {
-        return {
+        throw {
             err: "not able to find the queries movie",
             code: STATUS_CODE.NOT_FOUND
         }
