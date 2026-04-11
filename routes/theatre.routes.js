@@ -1,13 +1,15 @@
 import { Router } from "express"
 import * as theatreController from "../controllers/theatre.controller.js"
 import { validateTheatreCreateRequest, validateUpdateMovie } from "../middleware/theatre.middleware.js";
-import { IsAuthenticated } from "../middleware/auth.middleware.js";
+import * as authMiddleware from "../middleware/auth.middleware.js";
 
 const router = Router();
 
 //{create theatre}
 router.post(
     '/mba/api/v1/theatres',
+    authMiddleware.IsAuthenticated,
+    authMiddleware.isAdminOrClient,
     validateTheatreCreateRequest,
     theatreController.create
 );
@@ -35,7 +37,7 @@ router.get(
 // {delete theatre by id}
 router.delete(
     "/mba/api/v1/theatres/:id",
-    IsAuthenticated,
+    authMiddleware.IsAuthenticated,
     theatreController.deleteTheatre)
 
 //{update movie in a theatre , we can add movie in a theatre or remove movie from a theatre}
