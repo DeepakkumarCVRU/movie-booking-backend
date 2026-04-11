@@ -45,12 +45,24 @@ router.delete(
 //{update movie in a theatre , we can add movie in a theatre or remove movie from a theatre}
 router.patch(
     "/mba/api/v1/theatres/:id/movies",
-    validateUpdateMovie, theatreController.updateMovie
+    validateUpdateMovie,
+    theatreController.updateMovie
 )
 
 // {update theatre details}
-router.patch("/mba/api/v1/theatres/:id", theatreController.updateTheatre)
-router.put("/mba/api/v1/theatres/:id", theatreController.updateTheatre)
+router.patch(
+    "/mba/api/v1/theatres/:id",
+    authMiddleware.IsAuthenticated,
+    authMiddleware.isAdminOrClient,
+    theatreController.updateTheatre
+)
+
+router.put(
+    "/mba/api/v1/theatres/:id",
+    authMiddleware.IsAuthenticated,
+    authMiddleware.isAdminOrClient,
+    theatreController.updateTheatre
+)
 
 // {get all the movies in a particular theatre , whenever i going to specific theatre i can get all the movies which running in that theatre}
 router.get(

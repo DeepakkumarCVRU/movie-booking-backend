@@ -119,16 +119,16 @@ export const updateMovie = async (req, res) => {
 export const updateTheatre = async (req, res) => {
     try {
         const response = await theatreService.updateTheatre(req.params.id, req.body);
-        if (response.err) {
-            errorResponceBody.err = response.err;
-
-            return res.status(response.code).json(errorResponceBody);
-        }
         successResponceBody.data = response;
         successResponceBody.message = "Successfully updated the theatre";
         return res.status(STATUS_CODE.OK).json(successResponceBody)
     } catch (error) {
         console.log(error);
+
+        if (error.err) {
+            errorResponceBody.err = error.err;
+            return res.status(error.code).json(errorResponceBody)
+        }
         errorResponceBody.err = error;
         return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(errorResponceBody)
     }
