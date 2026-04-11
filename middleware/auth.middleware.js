@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken"
 import { errorResponceBody } from "../utils/responce.js";
 import { getUserById } from "../services/user.service.js";
-
+import { USER_ROLE } from "../utils/constant.js";
+import * as userService from "../services/user.service.js"
 /**
  * validator for user sign Up
  * @param req --> http request object
@@ -108,5 +109,34 @@ export const validResetPasswordRequest = (req, res, next) => {
         return res.status(400).json(errorResponceBody)
     }
 
+    next()
+}
+
+
+export const isAdming = async (req, res, next) => {
+    const user = await userService.getUserById(req.userId)
+
+    if (user.userRole != USER_ROLE.admin) {
+        errorResponceBody.err = "user is not a admin , cannot process with the request";
+        return res.status(403).json(errorResponceBody)
+    }
+    next()
+}
+
+export const isClient = async (req, res, next) => {
+    const user = await userService.getUserById(req.userId)
+    if (user.userRole != USER_ROLE.client) {
+        errorResponceBody.err = "user is not a client , cannot process with the request";
+        return res.status(403).json(errorResponceBody)
+    }
+    next()
+}
+
+export const isAdminOrClient = async (req, res, next) => {
+    const user = await userService.getUserById(req.userId)
+    if (user.userRole != USER_ROLE.admin && user.userRole != USER_ROLE.client) {
+        errorResponceBody.err = "user is not a admin or client , cannot process with the request";
+        return res.status(403).json(errorResponceBody)
+    }
     next()
 }

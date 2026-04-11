@@ -50,9 +50,9 @@ export const getUserByEmail = async (email) => {
 }
 
 
-export const getUserById = async (req, res) => {
+export const getUserById = async (userId) => {
     try {
-        const response = await userModel.findOne(req.userId)
+        const response = await userModel.findOne({ _id: userId })
         if (!response) {
             throw { err: "User not found ", code: 404 }
         }

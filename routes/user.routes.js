@@ -1,5 +1,6 @@
 import * as userController from "../controllers/user.controller.js"
 import * as userMiddleware from "../middleware/user.middleware.js"
+import * as authMiddleware from "../middleware/auth.middleware.js"
 import { Router } from "express"
 
 
@@ -8,7 +9,9 @@ const userRoute = Router()
 
 userRoute.patch(
     "/mba/api/v1/user/:id",
+    authMiddleware.IsAuthenticated,
     userMiddleware.validateUpdateUserRequest,
+    authMiddleware.isAdming,
     userController.updateUser
 )
 
