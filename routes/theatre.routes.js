@@ -38,7 +38,9 @@ router.get(
 router.delete(
     "/mba/api/v1/theatres/:id",
     authMiddleware.IsAuthenticated,
-    theatreController.deleteTheatre)
+    authMiddleware.isAdminOrClient,
+    theatreController.deleteTheatre
+);
 
 //{update movie in a theatre , we can add movie in a theatre or remove movie from a theatre}
 router.patch(

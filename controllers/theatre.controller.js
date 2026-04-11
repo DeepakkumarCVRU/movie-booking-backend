@@ -17,7 +17,6 @@ export const create = async (req, res) => {
 
         if (error.err) {
             errorResponceBody.err = error.err;
-            errorResponceBody.message = " validation field on few parameters of the request body ";
             return res.status(error.code).json(errorResponceBody)
         }
 
@@ -64,16 +63,18 @@ export const deleteTheatre = async (req, res) => {
 
         const response = await theatreService.deleteTheatreById(req.params.id)
 
-        if (response.err) {
-            errorResponceBody.err = response.err;
-            return res.status(response.code).json(errorResponceBody)
-        }
 
         successResponceBody.data = response;
         successResponceBody.message = "successfully deleted the given theatre";
 
         return res.status(STATUS_CODE.OK).json(successResponceBody)
     } catch (error) {
+
+        if (error.err) {
+            errorResponceBody.err = error.err;
+            return res.status(error.code).json(errorResponceBody)
+        }
+
         errorResponceBody.err = error;
         return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({ errorResponceBody })
     }
