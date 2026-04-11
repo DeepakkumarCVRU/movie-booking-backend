@@ -62,3 +62,31 @@ export const getUserById = async (req, res) => {
         throw error;
     }
 }
+
+
+// this code is not working properly , you can go userModel and find the problem what not working , thank you
+/*
+export const updateUserRoleOrStatus = async (data, userId) => {
+    try {
+        const updateQuery = {};
+        if (data.userRole) updateQuery.userRole = data.userRole;
+        if (data.userStatus) updateQuery.userStatus = data.userStatus;
+        if (data.drink) updateQuery.drink = data.drink;
+
+
+
+        const response = await userModel.findByIdAndUpdate(
+            {
+                _id: userId
+            }, updateQuery, { returnDocument: "after" })
+
+        if (!response) {
+            throw { err: " No user found for the given Id", code: 404 }
+        }
+        return response;
+
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+} */

@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
         minLength: 6
     },
 
+
+    // { you have fix issu that enum is not wroking in both userType and userStatus , you will have to fix as soon as posible }
+
     userType: {
         type: String,
         requied: true,
@@ -32,16 +35,20 @@ const userSchema = new mongoose.Schema({
             values: [USER_ROLE.admin, USER_ROLE.customer, USER_ROLE.client],
             message: "Invalid userrole given "
         },
+
         default: USER_ROLE.customer
     },
+
     userStatus: {
         type: String,
         required: true,
+
         enum: {
             values: [USER_STATUS.aproved, USER_STATUS.pending, USER_STATUS.rejected],
             message: "Invalid userStatus given by user "
         },
-        default: USER_STATUS.aproved
+        enum: Object.values(USER_ROLE),
+        default: USER_STATUS.approved
     }
 }, { timestamps: true })
 
