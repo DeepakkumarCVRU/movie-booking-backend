@@ -93,9 +93,20 @@ export const IsAuthenticated = async (req, res, next) => {
         errorResponceBody.err = error;
         return res.status(500).json(errorResponceBody)
     }
+}
 
 
+export const validResetPasswordRequest = (req, res, next) => {
+    //validate old password
+    if (!req.body.oldPassword) {
+        errorResponceBody.err = "Missign  old password in the request";
+        return res.status(400).json(errorResponceBody)
+    }
 
+    if (!req.body.newPassword) {
+        errorResponceBody.err = "Missign  new password in the request";
+        return res.status(400).json(errorResponceBody)
+    }
 
-
+    next()
 }

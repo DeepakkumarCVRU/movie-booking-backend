@@ -65,20 +65,19 @@ export const getUserById = async (req, res) => {
 
 
 // this code is not working properly , you can go userModel and find the problem what not working , thank you
-/*
+
 export const updateUserRoleOrStatus = async (data, userId) => {
     try {
         const updateQuery = {};
         if (data.userRole) updateQuery.userRole = data.userRole;
         if (data.userStatus) updateQuery.userStatus = data.userStatus;
-        if (data.drink) updateQuery.drink = data.drink;
 
 
 
         const response = await userModel.findByIdAndUpdate(
             {
                 _id: userId
-            }, updateQuery, { returnDocument: "after" })
+            }, updateQuery, { returnDocument: "after", runValidators: true })
 
         if (!response) {
             throw { err: " No user found for the given Id", code: 404 }
@@ -87,6 +86,15 @@ export const updateUserRoleOrStatus = async (data, userId) => {
 
     } catch (error) {
         console.log(error)
+
+        if (error.name == "ValidationError") {
+            let err = {};
+            Object.keys(error.errors).forEach((key) => {
+                err[key] = error.errors[key].message;
+            })
+            throw { err: err, code: 400 }
+        }
+
         throw error;
     }
-} */
+} 
