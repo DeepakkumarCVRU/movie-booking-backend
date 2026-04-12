@@ -20,3 +20,9 @@ export const STATUS_CODE = {
     UNPROCESSABLE_ENTITY: 422,
     INTERNAL_SERVER_ERROR: 500
 }
+
+export const BOOKING_STATUS = {
+    canclled: "CANCLLED",
+    successfull: "SUCCESSFULL",
+    processing: "IN_PROCESS"
+}
