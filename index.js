@@ -8,6 +8,7 @@ import theatreRouter from "./routes/theatre.routes.js"
 import mongoose from "mongoose"
 import authRouter from "./routes/auth.routes.js"
 import userRoute from "./routes/user.routes.js"
+import bookingRoute from "./routes/booking.routes.js"
 
 
 
@@ -27,6 +28,7 @@ app.use(router)
 app.use(theatreRouter)
 app.use(authRouter)
 app.use(userRoute)
+app.use(bookingRoute)
 
 // Source - https://stackoverflow.com/a/18763020
 // Posted by mr.freeze, modified by community. See post 'Timeline' for change history

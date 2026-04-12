@@ -17,7 +17,7 @@ const bookingSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    timing: {
+    timings: {
         type: String,
         required: true
     },
